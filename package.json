@@ -1,8 +1,8 @@
 {
   "name": "dsh-fish-pay-counter",
-  "version": "1.2.0",
+  "version": "1.5.1",
   "type": "module",
-  "description": "DSH 工作台里的可拖动小鱼工资计数器",
+  "description": "摸鱼发薪局：左键点鱼放烟花，右键喂鱼或在 DSH 工作台上戳泡泡。",
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",
@@ -28,7 +28,10 @@
     "dsh-plugin",
     "deepseek-harness",
     "widget",
-    "pay-counter"
+    "pay-counter",
+    "desktop-pet",
+    "fish",
+    "bubble-game"
   ],
   "files": [
     "client.js",
