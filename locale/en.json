@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "Fish Pay Counter",
+    "description": "A draggable workbench goldfish: click it for a firework quip, feed it, or play a 15-second bubble game, with an optional pay estimate that stays on your device.",
+    "detail": "docs/DETAIL.md"
+  }
+}
