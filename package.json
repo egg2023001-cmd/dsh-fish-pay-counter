@@ -1,8 +1,8 @@
 {
   "name": "dsh-fish-pay-counter",
-  "version": "1.5.3",
+  "version": "1.6.0",
   "type": "module",
-  "description": "Fish Pay Counter (摸鱼发薪局): a draggable goldfish on the DSH workbench. Click it for a quip and a firework, feed it, play a 15-second bubble game, and see today's pay estimated.",
+  "description": "A draggable DSH fish pet with two outfits, firework quips, an optional daily community feed and a bubble game.",
   "author": "egg2023001-cmd",
   "homepage": "https://dshopen.org/zh/plugins/dsh-fish-pay-counter/",
   "icon": "./icon.png",

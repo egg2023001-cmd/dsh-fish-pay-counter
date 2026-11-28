@@ -24,7 +24,9 @@
 - [投一句台词](https://github.com/egg2023001-cmd/dsh-fish-pay-counter/issues/new?template=fish-line.md) · [投一个鱼造型](https://github.com/egg2023001-cmd/dsh-fish-pay-counter/issues/new?template=fish-look.md)
 - 喜欢别人的提案可以在对应议题点 👍。被采用的台词进入[公开词库](community/lines.json)，造型随插件更新。也欢迎直接提交改动。代码和内置原创素材采用 [MIT 许可](LICENSE)。
 
-以上新玩法可通过下方 GitHub 来源体验；npm 1.5.3 及更早版本使用原词库。
+本版为 GitHub 发行版 **1.6.0**。在 DSH 的「添加插件」中填入下方完整来源即可安装此版本。npm 1.5.3 使用原词库。
+
+`github:egg2023001-cmd/dsh-fish-pay-counter#v1.6.0`
 
 ## 安装
 
