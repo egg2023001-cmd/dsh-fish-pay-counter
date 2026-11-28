@@ -1,26 +1,13 @@
 # Fish Pay Counter
 
-A goldfish in a work hat sits on your DSH workbench and counts today's pay while the model works. Click it for a firework, feed it a pellet, or spend 15 seconds popping bubbles.
+Pet the workbench goldfish to see it squint and pop a firework quip. Cast a line, steer toward office oddities, and strike the gold float for a bonus catch. Includes bubble popping, outfits and an optional daily quip feed.
 
-![A firework and a quip after clicking the fish](/market-assets/workbench-fireworks.png)
+![A gold float on the DSH workbench](/market-assets/gold-fishing.png)
 
-## How to play
+Right-click the fish and choose **小游戏 → 大肥鱼捞班味**. Click the fish to cast. Steer with the mouse or arrow keys as the hook returns. Wait for the float to flash gold and click it for a second item. You can also click the fish or press Space while it has focus. A hooked item comes home even if you miss the gold window.
 
-- **Click the fish**: one firework and one quip, 52 of them in rotation.
-- **Right-click and pick 投喂鱼粮** (feed): a pellet flies to its mouth, with one of 12 remarks.
-- **Right-click and pick 戳泡泡** (pop bubbles): bubbles drift across the workbench for 15 seconds. A bubble scores 1, a gold one 2.
-- **Drag**: put the fish where you like. Its place is remembered.
+![A soft, five-fingered hand petting the fish](/market-assets/petting.png)
 
-## Counting pay
+Click its back for a stroke and a quip, or hold and drag to move. The games menu also has a 15-second bubble chase. To change outfits, subscribe to daily quips or configure your optional pay counter, open **装扮与设置**.
 
-Click the pay readout under the fish (or 工资面板 in the right-click menu) to open the schedule panel. Add a monthly salary, the paid days per month and your working hours, and it estimates today's pay from the hours worked. The 12:00–13:00 lunch pause is on by default and can be turned off, and the counter can be paused.
-
-Estimates use China Standard Time and a Monday-to-Friday week. Treat them as fun, not as a payslip.
-
-![Bubbles drifting over the workbench](/market-assets/workbench-bubbles.png)
-
-## What it keeps
-
-Your salary, schedule and the fish's position stay in this workbench's browser storage. Offline by default. The new right-click menu offers a second outfit and an optional daily feed of public quips from GitHub. Salary, schedule and clicks stay on your device.
-
-It honours your system's Reduce Motion setting.
+Both games work offline. Your salary and schedule stay on your device. Opting in to daily quips reads a public word list. Supports Reduce Motion and DSH `>=0.2.2-rc.3 <0.3.0`.

@@ -428,12 +428,198 @@ window.__ModuleLoader__.load({
       }
     }
 
+    // Each catch has two possible lines. Cycle through each rarity before repeating.
+    const tackle = [
+      [
+        ['☕', '半杯冰美式', '冰都下班了，咖啡还在。', '吸管给我，我给海底续个杯。'],
+        ['⌨️', '失踪的空格键', '终于能喘 口 气 了。', '先别安回去，给周一留点空白。'],
+        ['🧦', '落单的条纹袜', '别急着捞另一只，这只想单飞。', '它说洗衣机才是真正的传送门。'],
+        ['🍪', '会议室最后一块饼', '饼是实心的。这次领导没骗鱼。', '我咬个角，剩下的算你的期权。'],
+        ['🪴', '工位薄荷', '浇了三年咖啡，它比你还清醒。', '今天的氧气是这位同事出的。'],
+        ['🎧', '左耳机', '右边还在开会，这边先放歌。', '它在海底循环了八百遍前奏。'],
+        ['🧋', '沉底的珍珠', '奶茶散会了，它留下写纪要。', '最后一颗！吸管悬案结案。'],
+        ['🖇️', '回形针项链', '海底时装周，我走压轴。', '扣上，今天咱俩算同一个附件。'],
+        ['🩴', '一只下班拖鞋', '谁把下班的另一只穿走了？', '工帽不脱了，鞋先替我辞职。'],
+        ['🍤', '带薪小虾', '虾仁不眨眼，原来它在装忙。', '工牌都戴反了，还说你没午睡。'],
+        ['📝', '防水便利贴', '上面写着：记得把我捞上去。', '泡成这样，待办居然还没糊。'],
+        ['🍊', '桌角的橘子', '批准剥皮，橘络留给我织围巾。', '这一瓣叫休息，下一瓣也叫休息。'],
+      ], [
+        ['📼', '没存档的星期五', '倒带，咱从下午五点五十九再过。', '进度条一拖，周报倒着写。'],
+        ['🕹️', '午休复活币', '投一枚，刚才那觉还能接着睡。', '按住不放！正在加载第二个午休。'],
+        ['🛎️', '散会铜铃', '叮。刚才那句「最后补充」作废。', '我替你敲，锅算鱼的。'],
+        ['🪭', '冷笑话折扇', '这把不用扇，念标题就凉了。', '空调遥控失踪案有平替了。'],
+        ['💾', '最终版的最终版', '捞到祖宗了，千万别点另存为。', '文件名太长，鱼线差点不够。'],
+        ['🎬', '下班场记板', '咔！今天的打工戏一条过。', '别补拍，我已经把夕阳叫来了。'],
+        ['🪪', '实习海鸥的工牌', '照片拍得像通缉令，难怪它不戴。', '职位写着薯条质检，专业对口。'],
+        ['🎟️', '周五末班船票', '靠窗的位置给你，我坐船沿。', '检票口在那朵云底下，快走。'],
+      ], [
+        ['🏅', '准点下班许可证', '盖章！我的工帽都先飞出去了。', '持证离场，谁追问就给他看鱼印。'],
+        ['🔑', '周末备用钥匙', '嘘，星期五背面真有一扇门。', '轻点拧，别把星期一吵醒。'],
+        ['🌙', '被借走的月亮', '今晚的夜班灯，原来是你啊。', '先挂回去，海底刚才全是盲盒。'],
+        ['👑', '摸鱼局代理局长冠', '任期十秒。第一件事，宣布休息。', '别低头，虾米正在给你拍照。'],
+      ],
+    ];
+    const fishingTiers = ['日常打捞', '稀奇货', '闪光宝物'];
+    const waterColors = ['#6cc6c6', '#a088df', '#f6bc48'];
+
+    const stowaways = [
+      ['🧋', '海底全糖通行证', '奶茶里的珍珠怎么全戴着潜水镜？'],
+      ['🐌', '光速审批蜗牛', '它说已经光速了，是光在摸鱼。'],
+      ['🧦', '失踪的另一只袜子', '原来洗衣机的另一头通海底。'],
+      ['🪩', '周五限定迪斯球', '一照，底下三条比目鱼开始蹦迪。'],
+      ['🍳', '反加班平底锅', '甩得漂亮，这口锅终于有人接了。'],
+      ['🐈', '键盘上的替班猫', '它按住了空格，说正在扩写周报。'],
+    ];
+
+    function FishingWater({ position, casting, setFishing, strike, exit }) {
+      const canvas = useRef(null);
+      const anchor = useRef(position);
+      anchor.current = position;
+      const decks = useRef([[], [], []]);
+      const extras = useRef([]);
+      const [cue, setCue] = useState(null);
+      const [catchText, setCatchText] = useState(null);
+      useEffect(() => {
+        if (!casting) return;
+        setCatchText(null);
+        setCue(null);
+        const surface = canvas.current;
+        const pen = surface.getContext('2d');
+        if (!pen) { setFishing('ready'); return; }
+        const lanes = shuffled([0.18, 0.50, 0.82]);
+        const prizes = [0, 1, Math.random() < .32 ? 2 : 0].map((tier, i) => {
+          if (!decks.current[tier].length) decks.current[tier] = shuffled(tackle[tier]);
+          return { tier, lane: lanes[i], depth: [0.44, 0.67, 0.89][i], item: decks.current[tier].pop() };
+        });
+        let aim = null, held = null, frame = 0;
+        let bite = null, pause = 0, perfect = false;
+        const began = performance.now();
+        const point = e => { if (!held) aim = e.clientX; };
+        function land(now, manual) {
+          if (!bite) return;
+          const age = now - bite.start;
+          perfect = manual && bite.gold && age <= 2050;
+          pause = age;
+          bite = null;
+          setCue({ phase: perfect ? 'perfect' : 'landed' });
+        }
+        strike.current = () => land(performance.now(), true);
+        const steer = e => {
+          if (held) return;
+          if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+          if (!e.target.closest?.('.fish-pay-widget')) return;
+          e.preventDefault();
+          aim = (aim ?? anchor.current.x + 88) + (e.key === 'ArrowLeft' ? -26 : 26);
+        };
+        window.addEventListener('pointermove', point, { passive: true });
+        window.addEventListener('keydown', steer);
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        function draw(now) {
+          const w = window.innerWidth, hgt = window.innerHeight;
+          const ratio = Math.min(2, window.devicePixelRatio || 1);
+          if (surface.width !== Math.round(w * ratio) || surface.height !== Math.round(hgt * ratio)) {
+            surface.width = Math.round(w * ratio); surface.height = Math.round(hgt * ratio);
+          }
+          pen.setTransform(ratio, 0, 0, ratio, 0, 0);
+          pen.clearRect(0, 0, w, hgt);
+          const baseX = anchor.current.x + 89, baseY = anchor.current.y + 61;
+          const side = baseX < w / 2 ? 1 : -1;
+          const span = Math.max(90, Math.min(285, w - 28, w * .44));
+          const left = Math.max(10, Math.min(w - span - 10, side > 0 ? baseX + 36 : baseX - span - 36));
+          const depth = Math.min(155, hgt * .38);
+          const top = Math.max(22, Math.min(hgt - depth - 23, baseY - 18));
+          const tipX = baseX + side * 54, tipY = baseY - 32;
+          if (bite) {
+            const age = now - bite.start;
+            if (age >= 2050) land(now, false);
+            else if (age >= 700 && !bite.gold) {
+              bite.gold = true;
+              setCue({ ...bite, phase: 'gold' });
+            }
+          }
+          const t = Math.min(1, ((bite?.start ?? now) - began - pause) / 6500);
+          const progress = t < .49 ? t / .49 : (1 - t) / .51;
+          const x = Math.max(left, Math.min(left + span, aim ?? left + span * .5));
+          const y = top + progress * depth;
+          const center = left + span / 2;
+          pen.fillStyle = 'rgba(69,178,187,.10)';
+          pen.beginPath(); pen.ellipse(center, top + depth * .59, span * .57, depth * .58, 0, 0, Math.PI * 2); pen.fill();
+          pen.lineCap = 'round';
+          pen.strokeStyle = '#805736'; pen.lineWidth = 3;
+          pen.beginPath(); pen.moveTo(baseX, baseY); pen.quadraticCurveTo(tipX, tipY - 11, tipX, tipY); pen.stroke();
+          pen.strokeStyle = '#398d99'; pen.lineWidth = 1.6;
+          pen.beginPath(); pen.moveTo(tipX, tipY); pen.quadraticCurveTo(x, tipY + 7, x, y); pen.stroke();
+          pen.textAlign = 'center'; pen.textBaseline = 'middle';
+          pen.fillStyle = '#31484a';
+          for (const prize of prizes) {
+            const px = left + span * prize.lane;
+            const py = top + depth * prize.depth + (reduced ? 0 : Math.sin(t * 8 + prize.depth) * 4);
+            if (t > .49 && !held && Math.hypot(x - px, y - py) <= 22) {
+              held = prize;
+              aim = x;
+              bite = { start: now, x, y, gold: false };
+              setCue({ ...bite, phase: 'nibble' });
+            }
+            if (held === prize) continue;
+            pen.strokeStyle = waterColors[prize.tier]; pen.lineWidth = prize.tier === 2 ? 3 : 1.5;
+            pen.beginPath(); pen.arc(px, py, 16, 0, Math.PI * 2); pen.stroke();
+            pen.font = '20px system-ui'; pen.fillText(prize.item[0], px, py);
+          }
+          pen.strokeStyle = '#244d66'; pen.lineWidth = 2.4;
+          pen.beginPath(); pen.moveTo(x,y-4); pen.arc(x-4,y,4,0,Math.PI); pen.stroke();
+          pen.fillStyle = '#ed795d'; pen.beginPath(); pen.arc(x,y-9,4,0,Math.PI*2); pen.fill();
+          if (held) { pen.font = '25px system-ui'; pen.fillText(held.item[0],x,y+10); }
+          if (t < 1) { frame = requestAnimationFrame(draw); return; }
+          let bonus = null;
+          if (perfect) {
+            if (!extras.current.length) extras.current = shuffled(stowaways);
+            bonus = extras.current.pop();
+          }
+          setCatchText(bonus ? { title: held.item[0]+' '+held.item[1]+' ＋ '+bonus[0]+' '+bonus[1],
+            tag: '金漂双捞', line: bonus[2] } : held ? { title: held.item[0]+' '+held.item[1], tag: fishingTiers[held.tier],
+            line: held.item[2 + Math.floor(Math.random()*2)] } : { title: '空钩回港', tag: '再试一竿',
+            line: '刚才那杯咖啡游得真快。回钩时往宝物那边挪！' });
+          setFishing('ready');
+        }
+        frame = requestAnimationFrame(draw);
+        return () => {
+          strike.current = null;
+          cancelAnimationFrame(frame);
+          window.removeEventListener('pointermove', point);
+          window.removeEventListener('keydown', steer);
+        };
+      }, [casting, setFishing, strike]);
+
+      const left = Math.max(8, Math.min(window.innerWidth - 264, position.x + 88 - 128));
+      const top = Math.max(6, Math.min(window.innerHeight - 99,
+        position.y > 108 ? position.y - 98 : position.y + widgetHeight + 2));
+      const waiting = casting && (cue?.phase === 'nibble' || cue?.phase === 'gold');
+      const gold = cue?.phase === 'gold';
+      const hint = { nibble: '漂在抖，等它变金…', gold: '金漂！现在提竿', landed: '稳稳上岸！', perfect: '一钩俩？水底还挂了件私货！' }[cue?.phase];
+      return h(Fragment, null,
+        casting && h('canvas', { ref: canvas, className: 'fish-pay-fishing-water', 'aria-hidden': true }),
+        waiting && h('button', { type: 'button', className: 'fish-pay-bite' + (gold ? ' gold' : ''),
+          style: { left: cue.x, top: cue.y }, 'aria-label': '点击浮漂提竿',
+          onPointerDown: e => e.preventDefault(), onClick: () => strike.current?.(),
+          onKeyDown: e => { if (e.key === 'Escape') exit(); } }, gold ? '✦' : '···'),
+        h('div', { className: 'fish-pay-fishing-sign', style: { left, top } },
+          h('div', { role: 'status', 'aria-live': 'polite' },
+            h('small', null, casting ? '捞班味 · 收线时抓取' : catchText?.tag ?? '大肥鱼捞班味'),
+            h('strong', null, casting ? hint ?? '左右移动，瞄准想捞的东西' : catchText?.title ?? '点鱼，甩第一竿'),
+            h('span', null, casting ? waiting ? '点漂或点鱼提竿 · 鱼上也可按空格' : cue ? '收线中…' : '鼠标或 ← → 控钩，留意金漂' : catchText ? catchText.line : '回钩捞物，漂变金时提竿有彩蛋'),
+            !casting && catchText && h('small', null, '点鱼再来一竿')),
+          h('button', { type: 'button', onClick: exit, title: '收摊', 'aria-label': '收摊，退出钓鱼' }, '×')));
+    }
+
     function FloatingCounter({ open }) {
       const [data, setData] = useState(readState);
       const [time, setTime] = useClock();
       const [position, setPosition] = useState(initialPosition);
       const [dragging, setDragging] = useState(false);
+      const [stroke, setStroke] = useState(null);
       const [menu, setMenu] = useState(false);
+      const [fishing, setFishing] = useState(false);
+      const strike = useRef(null);
       const [reaction, setReaction] = useState(null);
       const [round, setRound] = useState(null);
       const widget = useRef(null);
@@ -466,8 +652,8 @@ window.__ModuleLoader__.load({
         ? position.y - (active ? 126 : 82)
         : position.y + widgetHeight + (active ? 38 : 6);
       const flareTop = Math.max(8, Math.min(window.innerHeight - 86, preferredFlareTop)) - position.y;
-      const flyoutWidth = 152;
-      const flyoutHeight = 166;
+      const flyoutWidth = 166;
+      const flyoutHeight = 160;
       const flyoutLeft = position.x + widgetWidth + flyoutWidth + 8 <= window.innerWidth
         ? widgetWidth : position.x >= flyoutWidth + 12 ? -flyoutWidth - 4 : 0;
       const flyoutOffset = flyoutLeft !== 0 ? 24 : position.y >= flyoutHeight + 8 ? -flyoutHeight : widgetHeight + 5;
@@ -580,6 +766,7 @@ window.__ModuleLoader__.load({
 
       function toggleGame() {
         setMenu(false);
+        setFishing(false);
         if (active) {
           stopGame();
           return;
@@ -601,27 +788,41 @@ window.__ModuleLoader__.load({
         });
       }
 
+      function toggleFishing() {
+        setMenu(false);
+        setRound(null);
+        setReaction(null);
+        setFishing(fishing ? false : 'ready');
+        button.current?.focus();
+      }
+
+      function menuAction(label, action) {
+        return h('button', { type: 'button', className: 'fish-pay-menu-action', onClick: action }, label);
+      }
+
       function openPanel() {
         setMenu(false);
         open();
       }
 
       function onFishKeys(event) {
-        if (event.key === 'Escape' && (menu || active)) {
+        if (event.key === 'Escape' && (menu || active || fishing)) {
           event.preventDefault();
           event.stopPropagation();
           if (menu) {
             setMenu(false);
             button.current?.focus();
-          } else stopGame();
+          } else if (fishing) toggleFishing();
+          else stopGame();
         } else if (event.target === button.current &&
           (event.key === 'ContextMenu' || (event.shiftKey && event.key === 'F10'))) {
           event.preventDefault();
-          setMenu(value => !value);
+          setMenu(value => value ? false : 'home');
         }
       }
 
       function start(event) {
+        if (stroke) setStroke(null);
         if (event.button !== 0 || drag.current) return;
         const target = event.currentTarget;
         const rect = target.getBoundingClientRect();
@@ -634,6 +835,7 @@ window.__ModuleLoader__.load({
       }
 
       function move(event) {
+        if (stroke && Math.hypot(event.clientX - stroke.x, event.clientY - stroke.y) > 3) setStroke(null);
         const gesture = drag.current;
         if (gesture?.id !== event.pointerId) return;
         const dx = event.clientX - gesture.startX;
@@ -667,7 +869,17 @@ window.__ModuleLoader__.load({
           return;
         }
         setMenu(false);
-        react('pet');
+        if (fishing === 'casting') strike.current?.();
+        else if (fishing) setFishing('casting');
+        else {
+          react('pet');
+          if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            const rect = event.currentTarget.getBoundingClientRect();
+            const x = event.detail ? event.clientX : rect.left + 88;
+            const y = event.detail ? event.clientY : rect.top + 64;
+            setStroke({ x, y, left: x - rect.left - fingertip.x, top: y - rect.top - fingertip.y, key: reactions.current.pet });
+          }
+        }
       }
 
       return h(Fragment, null,
@@ -680,11 +892,15 @@ window.__ModuleLoader__.load({
         },
         h('button', {
           ref: button, type: 'button', className: 'fish-pay-fish-button',
-          title: '点我摸鱼 · 右键玩 · 按住拖动', 'aria-label': '摸摸鱼', 'aria-expanded': menu,
+          title: fishing ? '点鱼甩竿或提竿 · 按住拖动' : '点我摸鱼 · 右键玩 · 按住拖动', 'aria-label': fishing === 'casting' ? '点鱼提竿' : fishing ? '点鱼甩竿' : '摸摸鱼', 'aria-expanded': Boolean(menu),
           onPointerDown: start, onPointerMove: move, onPointerUp: finish,
+          onPointerLeave: () => { if (stroke) setStroke(null); },
           onPointerCancel: finish, onLostPointerCapture: finish, onClick: click,
-          onContextMenu: (event) => { event.preventDefault(); setMenu(value => !value); },
-        }, h(FishIllustration, { night })),
+          onContextMenu: (event) => { event.preventDefault(); setMenu(value => value ? false : 'home'); },
+        }, h(FishIllustration, { night }),
+        stroke && h('span', { key: stroke.key, className: 'fish-pay-petting', 'aria-hidden': true,
+          style: { left: stroke.left, top: stroke.top },
+          onAnimationEnd: () => setStroke(null) })),
         bubble !== null && h('span', { className: 'fish-pay-burst', key: bubble.key, 'aria-hidden': true },
           h('span', { className: 'fish-pay-sparks' }),
           h('span', { className: 'fish-pay-bubble' }, '+¥' + bubble.delta)),
@@ -713,27 +929,26 @@ window.__ModuleLoader__.load({
           note && h('span', { className: 'fish-pay-float-chip fish-pay-note', role: 'status' }, note)),
         menu && h('div', { ref: menuItems, className: 'fish-pay-flyout', role: 'group', 'aria-label': '小鱼互动',
           style: { left: flyoutLeft, top: flyoutTop } },
-          h('button', { type: 'button', className: 'fish-pay-float-chip', onClick: () => {
-            setMenu(false);
-            button.current?.focus();
-            react('feed');
-          } }, '✦ 投喂鱼粮'),
-          h('button', { type: 'button', className: 'fish-pay-float-chip', onClick: toggleGame },
-            active ? '× 结束这局' : '○ 戳泡泡'),
-          h('button', { type: 'button', className: 'fish-pay-float-chip', onClick: () => {
-            setNight(!night);
-            storePreference(skinKey, night ? 'gold' : 'night');
-            setMenu(false);
-            button.current?.focus();
-          } }, night ? '换装 · 橘子工头' : '换装 · 星夜巡游'),
-          h('button', { type: 'button', className: 'fish-pay-float-chip', 'aria-pressed': daily,
-            title: '从 GitHub 读取公开台词，工资和班表只在本机', onClick: () => {
-              setDaily(!daily);
-              storePreference(feedKey, daily ? 'off' : 'on');
-              setMenu(false);
-              button.current?.focus();
-            } }, daily ? '关闭每日新梗' : '订阅每日新梗'),
-          h('button', { type: 'button', className: 'fish-pay-float-chip', onClick: openPanel }, '工资面板'))),
+          menu === 'home' ? h(Fragment, null,
+            menuAction('✦ 投喂鱼粮', () => { setMenu(false); setFishing(false); button.current?.focus(); react('feed'); }),
+            menuAction('小游戏　›', () => setMenu('games')),
+            menuAction('装扮与设置　›', () => setMenu('settings'))) :
+          h(Fragment, null,
+            menuAction(menu === 'games' ? '‹　小游戏' : '‹　装扮与设置', () => setMenu('home')),
+            menu === 'games' ? h(Fragment, null,
+              menuAction(fishing ? '收摊 · 退出钓鱼' : '🎣 大肥鱼捞班味', toggleFishing),
+              menuAction(active ? '结束戳泡泡' : '○ 戳泡泡', toggleGame)) :
+            h(Fragment, null,
+              menuAction(night ? '换装 · 橘子工头' : '换装 · 星夜巡游', () => {
+                setNight(!night); storePreference(skinKey, night ? 'gold' : 'night');
+                setMenu(false); button.current?.focus();
+              }),
+              menuAction(daily ? '关闭每日新梗' : '订阅每日新梗', () => {
+                setDaily(!daily); storePreference(feedKey, daily ? 'off' : 'on');
+                setMenu(false); button.current?.focus();
+              }),
+              menuAction('工资面板', openPanel))))),
+        fishing && h(FishingWater, { position, casting: fishing === 'casting', setFishing, strike, exit: toggleFishing }),
         active && h('div', { className: 'fish-pay-air-game' },
           round.poppedSpot !== null && h('span', { key: round.hits, className: 'fish-pay-pop',
             style: bubblePosition(round.poppedSpot), 'aria-hidden': true }, round.hits % 4 === 0 ? '+2' : '+1'),
@@ -746,6 +961,21 @@ window.__ModuleLoader__.load({
             } }, gold ? '★' : null)));
     }
 
+    const fingertip = { x: 10, y: 3 };
+    const palm = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+      <g transform="rotate(-17 16 16)" stroke-linejoin="round" stroke-linecap="round">
+        <path fill="#ffead5" stroke="#997668" stroke-width="1.25" d="
+          M11.8 25.5 C9.2 24 8 22 6.3 20 L2.1 15.8 C.4 13.8 2.7 11.9 4.6 13.4 L9.1 16.6
+          L7.2 7.6 C6.7 4.8 10.1 4.1 10.8 6.9 L12.6 13.3
+          L12.3 3.8 C12.2 1 15.9 .9 16.1 3.8 L16.9 12.4
+          L18 5.1 C18.4 2.5 21.7 3 21.4 5.7 L20.9 13.5
+          L23.1 8.9 C24.3 6.3 27.2 7.6 26.3 10.1 L24.1 17.2
+          C23.5 19.7 24 21.4 21.8 24.4 L21.6 27.3 Q16.5 30 12 27.4 Z"/>
+        <path d="M8.8 17.4q3.3 1 4.2 4.4" fill="none" stroke="#d9aa97" stroke-width="1"/>
+        <path d="M13.5 16.5q3.1-1 6 .1" fill="none" stroke="#efd0b9" stroke-width=".9"/>
+        <path d="M11.7 25.7q4.8 1.9 10.5-1l.6 3.1q-5 2.8-10.7 1.2z" fill="#edbfb2" stroke="#ac8678" stroke-width="1"/>
+      </g></svg>`;
+    const handImage = 'url("data:image/svg+xml,' + encodeURIComponent(palm) + '")';
     const css = `
     .fish-pay-panel, .fish-pay-widget {
       --fish-ink: light-dark(#2f1f35,#fff0d5);
@@ -775,7 +1005,32 @@ window.__ModuleLoader__.load({
     .fish-pay-flyout, .fish-pay-float-notes {
       position: absolute; display: grid; justify-items: start; gap: 4px; pointer-events: none;
     }
-    .fish-pay-flyout { width: 152px; z-index: 3; }
+    .fish-pay-flyout { width: 166px; max-height: calc(100vh - 16px); overflow: auto; box-sizing: border-box;
+      z-index: 6; padding: 5px; gap: 1px; justify-items: stretch; border-radius: 15px; pointer-events: auto;
+      background: var(--fish-soft); border: 1px solid var(--fish-rule); box-shadow: 0 5px 16px #30233524; }
+    .fish-pay-menu-action { border: 0; text-align: start; font: 650 13px/1.3 system-ui;
+      cursor: pointer; border-radius: 9px; padding: 7px 10px; background: transparent; color: var(--fish-ink); }
+    .fish-pay-menu-action:hover, .fish-pay-menu-action:focus-visible { background: var(--fish-paper); }
+    .fish-pay-fishing-water { position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:41; }
+    .fish-pay-bite { position:fixed; z-index:43; transform:translate(-50%,-50%); border:2px solid white;
+      width:42px; height:42px; padding:0; border-radius:50%; background:#206871; color:#fff;
+      box-shadow:0 0 0 3px #66bab666; font:800 18px/1 system-ui; cursor:pointer; }
+    .fish-pay-bite.gold { background:#ffe18a; color:#70400e; border-color:#fff6d6; font-size:25px;
+      box-shadow:0 0 0 4px #e89f3880,0 0 16px #f6bc48; }
+    @media (prefers-reduced-motion:no-preference) {
+      .fish-pay-bite:not(.gold) { animation:fish-pay-nibble 220ms ease-in-out infinite alternate; }
+      @keyframes fish-pay-nibble { to { transform:translate(-50%,-44%) rotate(7deg); } }
+    }
+    .fish-pay-fishing-sign { position:fixed; width:min(252px,calc(100vw - 16px)); z-index:41;
+      pointer-events:none; color:light-dark(#2c494c,#e2f7ee); font:600 13px/1.3 system-ui;
+      filter:drop-shadow(0 3px 6px #26403824); }
+    .fish-pay-fishing-sign > div { display:grid; gap:2px; padding:6px 24px 7px 10px;
+      border-inline-start:3px solid #daa64a; background:light-dark(#fff9e9f5,#233d40f5);
+      border-radius:3px 14px 14px 3px; }
+    .fish-pay-fishing-sign strong {font-size:15px;}
+    .fish-pay-fishing-sign small { font-size:11px; opacity:.8; }
+    .fish-pay-fishing-sign button { position:absolute; top:1px; right:1px; pointer-events:auto;
+      background:transparent; color:inherit; border:0; cursor:pointer; padding:3px 6px; font-size:17px; }
     .fish-pay-float-notes { inset-inline: 0; }
     .fish-pay-float-chip {
       display: inline-flex; align-items: center; gap: 7px; max-width: 100%;
@@ -886,7 +1141,7 @@ window.__ModuleLoader__.load({
     }
     .fish-pay-fish-button, .fish-pay-free { position: absolute; inset: 0; pointer-events: none; }
     .fish-pay-fish-button {
-      padding: 0; border: 0; background: transparent; touch-action: none; cursor: grab; appearance: none;
+      padding: 0; border: 0; background: transparent; touch-action: none; cursor: ${handImage} ${fingertip.x} ${fingertip.y}, grab; appearance: none;
     }
     .fish-pay-fish-button:focus-visible { outline: 0; }
     .fish-pay-fish-button:focus-visible .fish-pay-swim {
@@ -895,7 +1150,24 @@ window.__ModuleLoader__.load({
     .fish-pay-free .fish-pay-body, .fish-pay-free .fish-pay-tail, .fish-pay-free .fish-pay-hat {
       pointer-events: visiblePainted;
     }
-    .fish-pay-widget.fish-pay-dragging .fish-pay-fish-button { cursor: grabbing; }
+    .fish-pay-petting { position:absolute; width:32px; height:32px; pointer-events:none;
+      background:${handImage} center/contain no-repeat; transform-origin:${fingertip.x}px ${fingertip.y}px;
+      animation:fish-pay-stroke 560ms ease-in-out both; }
+    @media (prefers-reduced-motion:no-preference) {
+      .fish-pay-fish-button:has(.fish-pay-petting) { cursor:none; }
+      .fish-pay-fish-button:has(.fish-pay-petting) .fish-pay-eye { animation:fish-pay-contented 560ms ease-in-out both; }
+    }
+    @keyframes fish-pay-stroke {
+      0%,100% { transform:translate(0,0) rotate(0); }
+      18% { transform:translate(1px,2px) rotate(-6deg); }
+      60% { transform:translate(-13px,4px) rotate(-12deg); }
+      82% { transform:translate(-8px,-2px) rotate(-4deg); }
+    }
+    @keyframes fish-pay-contented {
+      0%,100% { transform:scaleY(1); }
+      28%,68% { transform:scaleY(.20); }
+    }
+    .fish-pay-widget.fish-pay-dragging .fish-pay-fish-button { cursor:grabbing; }
     .fish-pay-widget.fish-pay-dragging .fish-pay-swim { animation-play-state: paused; }
     .fish-pay-air {
       position: absolute; bottom: 2px; border-radius: 50%; border: 1px solid #e6a4ac; background: #ffd9df46;
@@ -985,7 +1257,7 @@ window.__ModuleLoader__.load({
         kind: id,
         priority: 'extension',
         title: () => title,
-        guide: [{ id, order: 430, title: () => title, description: () => '领一条上班鱼，等 AI 时看今日工资估算',
+        guide: [{ id, order: 430, title: () => title, description: () => '摸摸鱼背，右键甩一竿捞班味，等金漂一钩捞两件。',
           icon: () => h('span', { 'aria-hidden': true }, '🐟') }],
       }));
       ctx.slots.inject('sidebar.right.pane.tab', function* () {
