@@ -29,6 +29,8 @@ github:egg2023001-cmd/dsh-fish-pay-counter#v1.7.0
 
 ## 鱼缸共创
 
+**下一竿，由你出题。** [给鱼添一件渔获](https://github.com/egg2023001-cmd/dsh-fish-pay-counter/issues/new?template=fish-catch.md)：填一个物件名、一句鱼的吐槽就行。也可以直接在[玩家展示帖](https://github.com/deepseek-ai/deepseek-harness/discussions/14485)留言。想让自己的点子真的被钓起来？见[第一次改一件渔获](CONTRIBUTING.md)。
+
 主线新玩法：右键「装扮与设置」可切换「橘子工头」和长着星耳的「星夜巡游」。想听今天的新词，在同一菜单点「订阅每日新梗」。新一期的四句会优先出现；断网时照常点鱼。有个梗想让所有人的鱼说出来？直接投一句。只会画草图？给鱼添件衣服也行。
 
 - [投一句台词](https://github.com/egg2023001-cmd/dsh-fish-pay-counter/issues/new?template=fish-line.md) · [投一个鱼造型](https://github.com/egg2023001-cmd/dsh-fish-pay-counter/issues/new?template=fish-look.md)
