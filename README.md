@@ -4,7 +4,7 @@
 
 **等 AI 干活，点鱼放朵烟花。** 一条可以拖着游的 DSH 胖金鱼，随手摸一下、喂一颗，或者花 15 秒追泡泡。
 
-- **左键点鱼**：颜色各异的星火炸开，台词放大定格。52 句摸鱼台词轮着说。
+- **左键点鱼**：颜色各异的星火炸开，台词放大定格。52 句原创台词洗牌出场，一轮不重样。
 - **右键喂鱼**：看鱼粮飞到嘴边，听它换着说 12 句加餐吐槽。
 - **右键戳泡泡**：泡泡直接浮在 DSH 工作台各处。普通泡泡 1 分，金泡泡 2 分，点鱼旁的计分提示可以提前结束。
 - **拖鱼和计薪**：按住鱼拖动。点鱼下方的工资读数（或右键菜单里的「工资面板」）打开班表，按工作时段估算工资，支持跳过午休及手动暂停。
@@ -16,6 +16,15 @@
 ![泡泡直接浮在 DSH 工作台上](market-assets/workbench-bubbles.png)
 
 戳泡泡进行中的一局：带 ★ 的金色泡泡是金泡泡，戳中加 2 分；鱼旁显示本局的剩余秒数和得分，点 × 或按 Esc 提前结束。
+
+## 鱼缸共创
+
+主线新玩法：右键切换「橘子工头」和长着星耳的「星夜巡游」。想听今天的新词，右键点「订阅每日新梗」。新一期的四句会优先出现；断网时照常点鱼。有个梗想让所有人的鱼说出来？直接投一句。只会画草图？给鱼添件衣服也行。
+
+- [投一句台词](https://github.com/egg2023001-cmd/dsh-fish-pay-counter/issues/new?template=fish-line.md) · [投一个鱼造型](https://github.com/egg2023001-cmd/dsh-fish-pay-counter/issues/new?template=fish-look.md)
+- 喜欢别人的提案可以在对应议题点 👍。被采用的台词进入[公开词库](community/lines.json)，造型随插件更新。也欢迎直接提交改动。代码和内置原创素材采用 [MIT 许可](LICENSE)。
+
+以上新玩法可通过下方 GitHub 来源体验；npm 1.5.3 及更早版本使用原词库。
 
 ## 安装
 
@@ -36,12 +45,12 @@
 
 1. **先点一下鱼**：烟花和台词马上就有，不用任何设置。
 2. **想数工资**：还没填月薪时，鱼下面写着「摸鱼发薪局」，再往下一行是「点我填班表」。点它打开班表，填月薪、每月计薪日和上下班时间，读数就开始走。午休 12:00–13:00 默认不计入，可以关掉。
-3. **想逗它**：右键点鱼，只有三个选项：投喂鱼粮、戳泡泡、工资面板。戳泡泡一局 15 秒，一次只出一个泡泡，每戳中第四个是金泡泡。
+3. **想逗它**：右键点鱼能投喂、戳泡泡、换装或订阅每日新梗。戳泡泡一局 15 秒，一次只出一个泡泡，每戳中第四个是金泡泡。
 
-游戏开箱即玩。月薪默认留空，按中国标准时间和周一至周五估算，实际金额以工资单为准。班表、暂停记录和小鱼位置保存在当前工作台。插件无需账号、网络请求或模型调用。上图金额均为虚构。
+游戏开箱即玩。月薪默认留空，按中国标准时间和周一至周五估算，实际金额以工资单为准。班表、暂停记录和小鱼位置保存在当前工作台。默认离线。开启「每日新梗」后，每次打开及运行期间每小时从 GitHub 读取公开台词，工资、班表和点击记录都不会发送。上图金额均为虚构。
 
 在 macOS 的 DeepSeek Harness 0.2.2-rc.5 上验证。支持系统的减少动态效果设置。MIT License。
 
-**English** — A draggable goldfish for your DSH workbench. Click the fish for one of 52 firework quips. Right-click to feed it or pop bubbles anywhere in the workbench during a 15-second round. The optional pay estimate uses your schedule and stays on your device. After a full quit and reopen, the fish waits near the bottom-right of the window: click it right away, click the readout under it to enter your salary schedule, or right-click it to feed it or start a bubble round. Install it from the Plugins page: choose Add plugin and enter `dsh-fish-pay-counter`. It is the npm package, and the same name works with `dsh plugin --profile <profile> add dsh-fish-pay-counter`. If npm is out of reach, enter `github:egg2023001-cmd/dsh-fish-pay-counter` instead, or use the Open Plugin Market tab (search for 摸鱼发薪局) or the cloned repository directory.
+**English** — A draggable goldfish for your DSH workbench. Click the fish for a shuffled deck of 52 offline quips, with an optional daily community feed. Right-click to feed it or pop bubbles anywhere in the workbench during a 15-second round. The optional pay estimate uses your schedule and stays on your device. After a full quit and reopen, the fish waits near the bottom-right of the window: click it right away, click the readout under it to enter your salary schedule, or right-click it to feed it or start a bubble round. Install it from the Plugins page: choose Add plugin and enter `dsh-fish-pay-counter`. It is the npm package, and the same name works with `dsh plugin --profile <profile> add dsh-fish-pay-counter`. If npm is out of reach, enter `github:egg2023001-cmd/dsh-fish-pay-counter` instead, or use the Open Plugin Market tab (search for 摸鱼发薪局) or the cloned repository directory.
 
 玩得开心的话，欢迎点个 star，并到[开放插件市场页面](https://dshopen.org/zh/plugins/dsh-fish-pay-counter/)点个赞——小插件被人看见，主要靠这两样。

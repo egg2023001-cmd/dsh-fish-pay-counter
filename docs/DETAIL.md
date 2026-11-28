@@ -21,6 +21,6 @@ Estimates use China Standard Time and a Monday-to-Friday week. Treat them as fun
 
 ## What it keeps
 
-Your salary, schedule and the fish's position stay in this workbench's browser storage. The plugin needs no account and makes no network or model requests.
+Your salary, schedule and the fish's position stay in this workbench's browser storage. Offline by default. The new right-click menu offers a second outfit and an optional daily feed of public quips from GitHub. Salary, schedule and clicks stay on your device.
 
 It honours your system's Reduce Motion setting.

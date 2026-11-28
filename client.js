@@ -136,10 +136,10 @@ window.__ModuleLoader__.load({
       weekend: '周末不上班，鱼也不上。',
     };
 
-    function FishIllustration() {
+    function FishIllustration({ night = false }) {
       const artId = id + useId();
       const paint = (name) => 'url(#' + artId + '-' + name + ')';
-      return h('span', { className: 'fish-pay-free', 'aria-hidden': true },
+      return h('span', { className: night ? 'fish-pay-free fish-pay-night' : 'fish-pay-free', 'aria-hidden': true },
         h('span', { className: 'fish-pay-air fish-pay-air-one' }),
         h('span', { className: 'fish-pay-air fish-pay-air-two' }),
         h('span', { className: 'fish-pay-air fish-pay-air-three' }),
@@ -188,69 +188,72 @@ window.__ModuleLoader__.load({
               fill: 'none', stroke: '#9e4852', strokeWidth: 2.1 }),
             h('ellipse', { cx: 100, cy: 86, rx: 8.5, ry: 4.5, fill: '#ec667a', opacity: .64 }),
             h('g', { className: 'fish-pay-hat' },
+              night && h('g', { fill: '#ffc972', stroke: '#76518e', strokeWidth: 1.5 },
+              h('path', { d: 'M82 20 73 5Q72 2 77 4L95 14ZM104 17 115 3Q118 1 117 6L114 25Z' })),
               h('path', { d: 'M68 41c-2-13 6-25 20-29 15-4 30 5 33 20l-1 6Z',
                 fill: paint('hat'), stroke: '#aa5837', strokeWidth: 2.4 }),
               h('path', { d: 'M86 34c-1-11 4-19 10-22m8 21c1-9-1-16-5-21',
                 fill: 'none', stroke: '#ffe99a', strokeWidth: 2.8, opacity: .87 }),
               h('path', { d: 'M65 40c12-4 38-10 60-8 5 0 7 3 6 6-2 4-12 5-27 7-17 2-34 5-40 2-4-2-3-5 1-7Z',
                 fill: paint('hat'), stroke: '#aa5837', strokeWidth: 2.3 }),
+              night && h('path', { d: 'm101 16 1.7 4.1 4.5.4-3.4 2.9 1.1 4.3-3.9-2.3-3.8 2.3 1-4.3-3.4-2.9 4.5-.4Z', fill: '#fff6a5' }),
               h('path', { d: 'M69 42c9-3 18-4 25-5', fill: 'none', stroke: '#fff3b1', strokeWidth: 2 })))));
     }
 
     const fishReactions = {
       pet: [
-        '摸一下就行，鱼还要上班呢。',
-        '再摸一下也行。',
-        '工帽歪了。对，就是你干的。',
-        '鱼摸鱼，这怎么算工时？',
-        '你点我干嘛？哦，你也在等 AI。',
-        '今天的工作重点：保持湿润。',
-        '鱼脑加载中，摸一下快一点。',
-        '我在复盘。盘里怎么没有鱼粮？',
-        '这一下，鱼鳞都顺了。',
-        '刚才那声叹气，鱼听见了。',
-        '允许你摸。鱼只是没躲。',
-        '你的手法不错，考虑来鱼缸做兼职吗？',
-        '工位有水，心里有数。',
-        '刚打了个盹。谁问都说我在做深度思考。',
-        '给你留了个泡泡位，坐吧。',
-        '鱼的待办只有一项：下班。',
-        '你摸的是鱼，鱼摸的是工资。',
-        '这一鳍下去，烦恼少一点。',
-        '先眨个眼，需求等会儿再看。',
-        '我是深水区员工，浅聊可以。',
-        '今天效率很高，已经游了三个来回。',
-        '鱼在这儿，你可以走神十秒。',
-        '你这一下，比下午那杯咖啡管用。',
-        '来点掌声。鱼的鳍太短，拍不到一起。',
-        '报告：刚把一朵泡泡养大了。',
-        '别笑，工帽是我唯一的正装。',
-        '鱼缸太小，梦想放在桌面上。',
-        '开会带上我？可以，我只吐泡泡。',
-        '从现在起，发呆归鱼负责。',
-        '你要是累了，就把手从鼠标上挪一会儿。',
-        '摸一下算友好，再摸一下算好朋友。',
-        '我没偷偷看时间。看了，也没数。',
-        '这个窗口风水不错，适合摆尾。',
-        '刚刚笑了？鱼就当今天交付了。',
-        '水温正好，今天原谅一条烂需求。',
-        '遇到难题就换口气，鱼平时都这么干。',
-        '手松一下。鼠标不会自己跑，鱼会。',
-        '有件事一直没告诉你，我特别会装忙。',
-        '这颗泡泡替你把「收到」回了。',
-        '鱼已经把烦恼推到缸角了。',
-        '快下班了吗？鱼就礼貌性问一嘴。',
-        '你点慢一点，我得摆完这个尾。',
-        '这会儿没别的活儿，陪你等等。',
-        '刚才那一下，差点把我摸成扁鱼。',
-        '今天鳍短，够不到工作群。太好了。',
-        '不小心游进需求里了，这就绕出来。',
-        '鱼偷偷练了一个嘴角上扬。',
-        '摸鱼有风险：鱼可能会赖上你。',
-        '想看我翻身？这得等工帽脱了。',
-        '说实话，鱼喜欢你坐旁边。',
-        '要是今天很难，先把这一口气喘匀。',
-        '在忙呢。忙着把这一下记住。',
+        '鱼生第一次被选中，居然是单选题。',
+        '存档点到了。刚才那句尴尬的话可以读档。',
+        '谁把我的工帽画进立绘了？睡衣版呢？',
+        '鱼鳍这么短，居然也能接到联机邀请。',
+        '刚才路过的那个泡泡，是我的替身。',
+        '鱼塘开麦。喂？怎么全是我自己的咕噜声。',
+        '这段等加载的时间，片头曲都唱到副歌了。',
+        '本集经费全花在你刚点的那朵烟花上了。',
+        '导演，说好给我特写，怎么只拍到肚皮？',
+        '魔法少女变身！等下，工牌忘摘了。',
+        '给尾巴画了条速度线。看起来下班快多了。',
+        '片尾名单就俩人。你负责点，我负责演。',
+        '这段能重来吗？我刚才只摆出了半个帅脸。',
+        '耳机漏音了？没事，我只会跟着低音摆尾。',
+        '我在水底捡到一拍。谁的歌刚才慢了？',
+        '你说去看海。我打开鱼缸盖，算露天场。',
+        '今日隐藏掉落：工帽里最后一片虾饼。',
+        '刚才谁点的暴击？头顶那颗星还没掉下来。',
+        '好消息，钓到宝箱。坏消息，里面是我。',
+        '队伍缺奶妈吗？我会给泡面加奶酪。',
+        '这把我打辅助。你走神，我放风。',
+        '面前两个按钮。我赌你还会点鱼。',
+        '潜行大成功。除了你，整间屋没人发现我。',
+        '鱼塘频道：那颗金泡泡谁捡了？分我瞅眼。',
+        '复活点怎么又在工位。地图是不是画错了？',
+        '过场动画跳不了？那我给你游个倍速的。',
+        '刚把工牌翻过来，背面写着路人甲。',
+        '你来得正好，帮我看看刘海是不是分叉了。',
+        '水草借我当围巾，开春再还它。',
+        '这是什么绝美侧脸。哦，是水壶里的倒影。',
+        '今天的穿搭叫奶油橘。胡萝卜听了很紧张。',
+        '摆个拍立得姿势。三、二……你点早啦。',
+        '我的痛包只挂一粒鱼粮，饿了直接拆周边。',
+        '小鱼巡演首站：你的鼠标垫。前排还空着。',
+        '弹幕少刷点哈哈哈，我在缸里笑得漏气。',
+        '这口鱼粮有锅气。哦，是工位风扇吹热的。',
+        '不许截我闭眼。刚那张……发我一份。',
+        '鱼在假装忙。麻烦把水草递过来当文件。',
+        '下午三点的太阳，把我晒成一块橘子糖。',
+        '鱼缸也有物业吗？我的气泡电梯又坏了。',
+        '同事问我在哪层。我说在千层蛋糕的奶油层。',
+        '刚想叹气，嘴里冒了颗爱心。怪尴尬的。',
+        '申请把这三秒剪下来，塞进周一当糖吃。',
+        '等等，先把下巴松一松。我替你咬这口空气。',
+        '鱼缸给你留了个靠窗位。窗外是你的桌面。',
+        '今天不想接话也行。咱俩并排吐泡泡。',
+        '不太想营业。把帽檐压低一点，偷偷陪你。',
+        '你慢慢来，我游两圈还是这个坐标。',
+        '刚刚顺着你的手指游，差点进了回收站。',
+        '我把今天最好看的一片鳞翻给你了。就一秒。',
+        '借你一小截尾风，回去点那个难点的按钮。',
+        '散场别急着走，鱼还有一个彩蛋没游完。',
       ],
       feed: [
         '这颗鱼粮，我替你吃了。',
@@ -267,6 +270,40 @@ window.__ModuleLoader__.load({
         '鱼嘴太小。这么好吃得分两口。',
       ],
     };
+    const feedKey = id + ':daily-feed';
+    const cacheKey = id + ':daily-cache';
+    const skinKey = id + ':skin';
+    const feedUrl = 'https://raw.githubusercontent.com/egg2023001-cmd/dsh-fish-pay-counter/main/community/lines.json';
+
+    function readPreference(key) {
+      try { return window.localStorage.getItem(key); } catch { return null; }
+    }
+
+    function storePreference(key, value) {
+      try { window.localStorage.setItem(key, value); } catch { /* Available for this session. */ }
+    }
+
+    function cleanEditions(input) {
+      if (!Array.isArray(input)) return [];
+      return input.slice(-90).filter(issue => issue && /^\d{4}-\d{2}-\d{2}$/.test(issue.day)
+        && Array.isArray(issue.lines) && issue.lines.length > 0 && issue.lines.length <= 6
+        && issue.lines.every(line => typeof line === 'string' && line.trim() === line
+          && line.length > 0 && [...line].length <= 32 && !/[<>\r\n]/u.test(line)));
+    }
+
+    function cachedEditions() {
+      try { return cleanEditions(JSON.parse(readPreference(cacheKey))); } catch { return []; }
+    }
+
+    function shuffled(lines) {
+      const deck = [...new Set(lines)];
+      for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+      }
+      return deck;
+    }
+
     const fireworkSparks = [
       [-122, -33, '#f29451'], [-92, -55, '#c578cf'], [-48, -62, '#f4bf45'],
       [-5, -51, '#67c5b0'], [49, -62, '#f17fa0'], [97, -45, '#a08ae6'],
@@ -404,6 +441,10 @@ window.__ModuleLoader__.load({
       const menuItems = useRef(null);
       const target = useRef(null);
       const scoreButton = useRef(null);
+      const [daily, setDaily] = useState(() => readPreference(feedKey) === 'on');
+      const [night, setNight] = useState(() => readPreference(skinKey) === 'night');
+      const [editions, setEditions] = useState(cachedEditions);
+      const deck = useRef({ key: null, lines: [], last: null });
       const reactions = useRef({ pet: 0, feed: 0 });
       const drag = useRef(null);
       const skipClick = useRef(false);
@@ -425,8 +466,8 @@ window.__ModuleLoader__.load({
         ? position.y - (active ? 126 : 82)
         : position.y + widgetHeight + (active ? 38 : 6);
       const flareTop = Math.max(8, Math.min(window.innerHeight - 86, preferredFlareTop)) - position.y;
-      const flyoutWidth = 104;
-      const flyoutHeight = 90;
+      const flyoutWidth = 152;
+      const flyoutHeight = 166;
       const flyoutLeft = position.x + widgetWidth + flyoutWidth + 8 <= window.innerWidth
         ? widgetWidth : position.x >= flyoutWidth + 12 ? -flyoutWidth - 4 : 0;
       const flyoutOffset = flyoutLeft !== 0 ? 24 : position.y >= flyoutHeight + 8 ? -flyoutHeight : widgetHeight + 5;
@@ -483,11 +524,52 @@ window.__ModuleLoader__.load({
         return () => window.clearTimeout(timer);
       }, [round, active]);
 
+      useEffect(() => {
+        if (!daily) return;
+        const controller = new AbortController();
+        let busy = false;
+        async function refresh() {
+          if (busy) return;
+          busy = true;
+          const timeout = AbortSignal.timeout(12000);
+          try {
+            const response = await fetch(feedUrl, { credentials: 'omit', referrerPolicy: 'no-referrer',
+              cache: 'no-cache', signal: AbortSignal.any([controller.signal, timeout]) });
+            if (!response.ok) return;
+            const latest = cleanEditions(await response.json());
+            if (latest.length && !controller.signal.aborted) {
+              storePreference(cacheKey, JSON.stringify(latest));
+              setEditions(latest);
+            }
+          } catch { /* The cached edition and offline deck still work. */ }
+          finally { busy = false; }
+        }
+        refresh();
+        const interval = window.setInterval(refresh, 60 * 60 * 1000);
+        return () => { controller.abort(); window.clearInterval(interval); };
+      }, [daily]);
+
+      function nextQuip() {
+        const issues = daily ? editions : [];
+        const key = issues.at(-1)?.day ?? 'offline';
+        const current = deck.current;
+        if (current.key !== key || !current.lines.length) {
+          const fresh = shuffled(issues.at(-1)?.lines ?? []);
+          const pool = shuffled([...fishReactions.pet, ...issues.flatMap(issue => issue.lines)]);
+          const list = current.key !== key ? [...fresh, ...pool.filter(line => !fresh.includes(line))] : pool;
+          if (list.length > 1 && list[0] === current.last) [list[0], list[1]] = [list[1], list[0]];
+          current.lines = list;
+          current.key = key;
+        }
+        current.last = current.lines.shift();
+        return current.last;
+      }
+
       function react(type) {
         const count = reactions.current[type]++;
         const lines = fishReactions[type];
         if (round && !active) setRound(null);
-        setReaction({ type, key: type + count, text: lines[count % lines.length] });
+        setReaction({ type, key: type + count, text: type === 'pet' ? nextQuip() : lines[count % lines.length] });
       }
 
       function stopGame() {
@@ -602,7 +684,7 @@ window.__ModuleLoader__.load({
           onPointerDown: start, onPointerMove: move, onPointerUp: finish,
           onPointerCancel: finish, onLostPointerCapture: finish, onClick: click,
           onContextMenu: (event) => { event.preventDefault(); setMenu(value => !value); },
-        }, h(FishIllustration)),
+        }, h(FishIllustration, { night })),
         bubble !== null && h('span', { className: 'fish-pay-burst', key: bubble.key, 'aria-hidden': true },
           h('span', { className: 'fish-pay-sparks' }),
           h('span', { className: 'fish-pay-bubble' }, '+¥' + bubble.delta)),
@@ -638,6 +720,19 @@ window.__ModuleLoader__.load({
           } }, '✦ 投喂鱼粮'),
           h('button', { type: 'button', className: 'fish-pay-float-chip', onClick: toggleGame },
             active ? '× 结束这局' : '○ 戳泡泡'),
+          h('button', { type: 'button', className: 'fish-pay-float-chip', onClick: () => {
+            setNight(!night);
+            storePreference(skinKey, night ? 'gold' : 'night');
+            setMenu(false);
+            button.current?.focus();
+          } }, night ? '换装 · 橘子工头' : '换装 · 星夜巡游'),
+          h('button', { type: 'button', className: 'fish-pay-float-chip', 'aria-pressed': daily,
+            title: '从 GitHub 读取公开台词，工资和班表只在本机', onClick: () => {
+              setDaily(!daily);
+              storePreference(feedKey, daily ? 'off' : 'on');
+              setMenu(false);
+              button.current?.focus();
+            } }, daily ? '关闭每日新梗' : '订阅每日新梗'),
           h('button', { type: 'button', className: 'fish-pay-float-chip', onClick: openPanel }, '工资面板'))),
         active && h('div', { className: 'fish-pay-air-game' },
           round.poppedSpot !== null && h('span', { key: round.hits, className: 'fish-pay-pop',
@@ -661,6 +756,7 @@ window.__ModuleLoader__.load({
       color: var(--fish-ink);
       font-family: ui-rounded, "PingFang SC", system-ui, sans-serif;
     }
+    .fish-pay-night .fish-pay-swim { filter: hue-rotate(218deg) saturate(.88); }
     .fish-pay-panel { margin: 0 auto; max-width: 30rem; padding: 16px; }
     .fish-pay-heading { margin-bottom: 14px; }
     .fish-pay-heading h2 { margin: 0; font-size: 21px; line-height: 1.18; font-weight: 820; letter-spacing: -.04em; }
@@ -679,7 +775,7 @@ window.__ModuleLoader__.load({
     .fish-pay-flyout, .fish-pay-float-notes {
       position: absolute; display: grid; justify-items: start; gap: 4px; pointer-events: none;
     }
-    .fish-pay-flyout { width: 104px; z-index: 3; }
+    .fish-pay-flyout { width: 152px; z-index: 3; }
     .fish-pay-float-notes { inset-inline: 0; }
     .fish-pay-float-chip {
       display: inline-flex; align-items: center; gap: 7px; max-width: 100%;
