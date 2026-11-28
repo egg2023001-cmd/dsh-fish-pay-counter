@@ -13,7 +13,7 @@ concurrency:
 jobs:
   release:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 20
     permissions:
       contents: write
       id-token: write
@@ -95,11 +95,12 @@ jobs:
             echo "::error::npm metadata returned HTTP $code"
             exit 1
           fi
-          for attempt in 1 2 3 4 5; do
+          deadline=$((SECONDS + 600))
+          while (( SECONDS < deadline )); do
             if curl -fsS --max-time 15 -o "$response" "$endpoint" && [[ "$(checksum)" == "$INTEGRITY" ]]; then
               exit 0
             fi
-            sleep 5
+            sleep 10
           done
           echo "::error::Could not verify the bytes of the published npm package"
           exit 1
