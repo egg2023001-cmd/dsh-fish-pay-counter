@@ -2,7 +2,7 @@
 
 等 AI 干活的时候，桌上有条戴工帽的鱼替你数今天的工资。点它放朵烟花，喂它一颗鱼粮，或者花 15 秒追一局泡泡。
 
-![点鱼后的烟花和台词](/market-assets/fish-pay-fireworks-1.5.1.png)
+![点鱼后的烟花和台词](/market-assets/workbench-fireworks.png)
 
 ## 怎么玩
 
@@ -17,7 +17,7 @@
 
 金额按中国标准时间和周一至周五估算，图个乐，以工资单为准。
 
-![工作台上的戳泡泡](/market-assets/fish-pay-bubbles-1.5.1.png)
+![工作台上的戳泡泡](/market-assets/workbench-bubbles.png)
 
 ## 它不碰你的东西
 

@@ -2,7 +2,7 @@
 
 A goldfish in a work hat sits on your DSH workbench and counts today's pay while the model works. Click it for a firework, feed it a pellet, or spend 15 seconds popping bubbles.
 
-![A firework and a quip after clicking the fish](/market-assets/fish-pay-fireworks-1.5.1.png)
+![A firework and a quip after clicking the fish](/market-assets/workbench-fireworks.png)
 
 ## How to play
 
@@ -17,7 +17,7 @@ Click the pay readout under the fish (or 工资面板 in the right-click menu) t
 
 Estimates use China Standard Time and a Monday-to-Friday week. Treat them as fun, not as a payslip.
 
-![Bubbles drifting over the workbench](/market-assets/fish-pay-bubbles-1.5.1.png)
+![Bubbles drifting over the workbench](/market-assets/workbench-bubbles.png)
 
 ## What it keeps
 
